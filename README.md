@@ -8,6 +8,7 @@ A simple REST API for managing tasks built with Java Spring Boot.
 
 ![Architecture](https://github.com/Gokilan-13/Task-Management/blob/main/ArchitectureOfRestApi.PNG?raw=true)
 
+
 ## Deployment
 
 To deploy this project
@@ -15,7 +16,7 @@ To deploy this project
 ```bash
   Use any IDE like Intellij, STS which runs your webapplication locally on your machine 
 
-  base url : http://localhost:8081/
+  base url : http://localhost:8081
 ```
 
 ## API Reference
@@ -104,7 +105,7 @@ To deploy this project
   - **Path Variable:**
       - `{loginId}` (String) - The unique identifier or email id of the user.
 
-  **Request Parameters:**
+  - **Request Parameters:**
       - `page` (int, optional, default: 0) - Page number for pagination(starts with 0).
       - `size` (int, optional, default: 10) - Number of tasks per page.
       - `sortBy` (String, optional, default: "id") - Field to sort tasks by.
@@ -194,3 +195,5 @@ To deploy this project
    - **Path Variable:**
        - `{loginId}` (String) - The unique identifier or email id of the user.
    - Response: List of tasks (paginated)
+
+
