@@ -8,12 +8,17 @@ A simple REST API for managing tasks built with Java Spring Boot.
 
 ![Architecture](https://github.com/Gokilan-13/Task-Management/blob/main/ArchitectureOfRestApi.PNG?raw=true)
 
+## Deployment
 
-## Table of Contents
-- [Usage](#usage)
+To deploy this project
 
+```bash
+  Use any IDE like Intellij, STS which runs your webapplication locally on your machine 
 
-## Base URL: {localhost:8080/}
+  base url : http://localhost:8081/
+```
+
+## API Reference
 
 ### User Authentication:
 
@@ -86,32 +91,28 @@ A simple REST API for managing tasks built with Java Spring Boot.
    - Response: None
    - HTTP Status: 201 Created
 
-5. **Change Task Status:**
-   - Endpoint: `PUT /changeTaskStatus/{loginId}`
-   - Purpose: Allow admins to change the status of a task.
-   - **Path Variable:**
-       - `{loginId}` (String) - The unique identifier or email id of the user.
-   - **Request Parameters:**
-       - `taskId` (Long) - The taskId to filter tasks.
-       - `status` (String) - status to change task status.
-   - Response: None
-   - HTTP Status: 200 OK
-
-6. **View All Tasks:**
+5. **View All Tasks:**
    - Endpoint: `GET /admin/viewAllTask/{loginId}`
    - Purpose: Allow admins to view all tasks.
    - **Path Variable:**
        - `{loginId}` (String) - The unique identifier or email id of the user.
    - Response: List of tasks (paginated)
 
-7. **View My Tasks:**
-   - Endpoint: `GET /employee/viewMyTask/{loginId}`
-   - Purpose: Allow employees to view their assigned tasks.
-   - **Path Variable:**
-       - `{loginId}` (String) - The unique identifier or email id of the user.
-   - Response: List of tasks (paginated)
+6.**View All Tasks - Sorted:**
+  - Endpoint:** `GET /admin/viewAllTaskSorted/{loginId}`
+  - Purpose:** Allow admins to view all tasks with sorting options.
+  - **Path Variable:**
+      - `{loginId}` (String) - The unique identifier or email id of the user.
 
-8. **Get Tasks with Filtering:**
+  **Request Parameters:**
+      - `page` (int, optional, default: 0) - Page number for pagination(starts with 0).
+      - `size` (int, optional, default: 10) - Number of tasks per page.
+      - `sortBy` (String, optional, default: "id") - Field to sort tasks by.
+      - `sortOrder` (String, optional, default: "asc") - Sorting order ("asc" for ascending, "desc" for descending).
+
+  -Response: Paginated list of tasks based on the provided sorting options.
+
+7. **Get Tasks with Filtering:**
    - Endpoint: `GET /admin/getTaskFilter/{loginId}`
    - Purpose: Allow admins to filter tasks based on status.
    - **Path Variable:**
@@ -120,7 +121,7 @@ A simple REST API for managing tasks built with Java Spring Boot.
      - `status` (String) - status to filter tasks.
    - Response: List of tasks based on the filter
 
-9. **Delete Task:**
+8. **Delete Task:**
    - Endpoint: `DELETE /admin/deleteTask/{loginId}/{taskId}`
    - Purpose: Allow admins to delete a task.
    - **Path Variable:**
@@ -129,7 +130,7 @@ A simple REST API for managing tasks built with Java Spring Boot.
    - Response: None
    - HTTP Status: 204 No Content
 
-10. **Delete Task:**
+9. **Delete Task:**
    - Endpoint: `DELETE /admin/deleteTask/{loginId}/{taskName}`
    - Purpose: Allow admins to delete a task.
    - **Path Variable:**
@@ -138,7 +139,7 @@ A simple REST API for managing tasks built with Java Spring Boot.
    - Response: None
    - HTTP Status: 204 No Content
 
-11. **Delete User:**
+10. **Delete User:**
     - Endpoint: `DELETE /admin/deleteUser/{loginId}/{userId}`
     - Purpose: Allow admins to delete a user.
     - **Path Variable:**
@@ -147,7 +148,7 @@ A simple REST API for managing tasks built with Java Spring Boot.
     - Response: None
     - HTTP Status: 204 No Content
 
-12. **Update Task:**
+11. **Update Task:**
     - Endpoint: `PUT /admin/updateTask/{loginId}`
     - Purpose: Allow admins to update task details.
     - **Path Variable:**
@@ -164,10 +165,32 @@ A simple REST API for managing tasks built with Java Spring Boot.
     - Response: None
     - HTTP Status: 200 OK
 
-13. **Assign Task:**
+12. **Assign Task:**
     - Endpoint: `PUT /admin/assignTask/{loginId}`
     - Purpose: Allow admins to assign a task to an employee.
     - **Path Variable:**
         - `{loginId}` (String) - The unique identifier or email id of the user.
     - Response: None
     - HTTP Status: 200 OK
+
+### Admin and Employee Privileges:
+
+13. **Change Task Status:**
+   - Endpoint: `PUT /changeTaskStatus/{loginId}`
+   - Purpose: Allow admins to change the status of a task.
+   - **Path Variable:**
+       - `{loginId}` (String) - The unique identifier or email id of the user.
+   - **Request Parameters:**
+       - `taskId` (Long) - The taskId to identify the task.
+       - `status` (String) - status to change task status.
+   - Response: None
+   - HTTP Status: 200 OK
+
+### Employee Privileges:
+
+14. **View My Tasks:**
+   - Endpoint: `GET /employee/viewMyTask/{loginId}`
+   - Purpose: Allow employees to view their assigned tasks.
+   - **Path Variable:**
+       - `{loginId}` (String) - The unique identifier or email id of the user.
+   - Response: List of tasks (paginated)
