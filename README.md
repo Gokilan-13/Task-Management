@@ -5,13 +5,15 @@ A simple REST API for managing tasks built with Java Spring Boot.
 
 ## Architecture
 
+
 ![Architecture](https://github.com/Gokilan-13/Task-Management/blob/main/ArchitectureOfRestApi.PNG?raw=true)
+
 
 ## Table of Contents
 - [Usage](#usage)
 
 
-## Base URL: {baseUrl}
+## Base URL: {localhost:8080/}
 
 ### User Authentication:
 
@@ -31,7 +33,7 @@ A simple REST API for managing tasks built with Java Spring Boot.
 ### Admin Privileges:
 
 2. **Add Task:**
-   - Endpoint: `POST /tasks`
+   - Endpoint: `POST /admin/addtask/{loginId}`
    - Purpose: Allow admins to add a new task.
    - Request Body:
      ```json
@@ -45,8 +47,9 @@ A simple REST API for managing tasks built with Java Spring Boot.
    - HTTP Status: 201 Created
 
 3. **Add User:**
-   - Endpoint: `POST /users`
+   - Endpoint: `POST /admin/adduser/{loginId}`
    - Purpose: Allow admins to add a new user.
+
    - Request Body:
      ```json
      {
@@ -56,62 +59,70 @@ A simple REST API for managing tasks built with Java Spring Boot.
        "gender": "Male",
        "age": 30,
        "address": "123 Main St",
-       "contactNo": 1234567890
+       "contactNo": 9234567890
      }
      ```
    - Response: User details
    - HTTP Status: 201 Created
 
 4. **Add Admin:**
-   - Endpoint: `POST /admins`
+   - Endpoint: `POST /admin/addadmin/{loginId}`
    - Purpose: Allow admins to add a new admin user.
-   - Request Body (similar to adding a user)
+      - Request Body:
+     ```json
+     {
+       "userName": "John Doe",
+       "emailId": "john.doe@example.com",
+       "password": "userpassword",
+       "gender": "Male",
+       "age": 30,
+       "address": "123 Main St",
+       "contactNo": 9234567890
+     }
+     ```
    - Response: None
    - HTTP Status: 201 Created
 
 5. **Change Task Status:**
-   - Endpoint: `PUT /tasks/{taskId}/status`
+   - Endpoint: `PUT /changeTaskStatus/{loginId}`
    - Purpose: Allow admins to change the status of a task.
-   - Request Body:
-     ```json
-     {
-       "status": "In Progress"
-     }
-     ```
+   - **Request Parameters:**
+    - `taskId` (Long) - The taskId to filter tasks.
+    - `status` (String) - status to change task status.
    - Response: None
    - HTTP Status: 200 OK
 
 6. **View All Tasks:**
-   - Endpoint: `GET /tasks`
+   - Endpoint: `GET /admin/viewAllTask/{loginId}`
    - Purpose: Allow admins to view all tasks.
    - Response: List of tasks (paginated)
 
 7. **View My Tasks:**
-   - Endpoint: `GET /tasks/my`
+   - Endpoint: `GET /employee/viewMyTask/{loginId}`
    - Purpose: Allow employees to view their assigned tasks.
    - Response: List of tasks (paginated)
 
 8. **Get Tasks with Filtering:**
-   - Endpoint: `GET /tasks`
+   - Endpoint: `GET /admin/getTaskFilter/{loginId}`
    - Purpose: Allow admins to filter tasks based on status.
    - Request Parameters:
-     - `status` (String, optional)
+     - `status` (String) - status to filter tasks.
    - Response: List of tasks based on the filter
 
 9. **Delete Task:**
-   - Endpoint: `DELETE /tasks/{taskId}`
+   - Endpoint: `DELETE /admin/deleteTask/{loginId}/{taskId}`
    - Purpose: Allow admins to delete a task.
    - Response: None
    - HTTP Status: 204 No Content
 
 10. **Delete User:**
-    - Endpoint: `DELETE /users/{userId}`
+    - Endpoint: `DELETE /admin/deleteUser/{loginId}/{userId}`
     - Purpose: Allow admins to delete a user.
     - Response: None
     - HTTP Status: 204 No Content
 
 11. **Update Task:**
-    - Endpoint: `PUT /tasks/{taskId}`
+    - Endpoint: `PUT /admin/updateTask/{loginId}`
     - Purpose: Allow admins to update task details.
     - Request Body:
       ```json
@@ -125,7 +136,7 @@ A simple REST API for managing tasks built with Java Spring Boot.
     - HTTP Status: 200 OK
 
 12. **Assign Task:**
-    - Endpoint: `PUT /tasks/{taskId}/assign/{employeeId}`
+    - Endpoint: `PUT /admin/assignTask/{loginId}`
     - Purpose: Allow admins to assign a task to an employee.
     - Response: None
     - HTTP Status: 200 OK
