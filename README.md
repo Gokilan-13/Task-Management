@@ -5,7 +5,7 @@ A simple REST API for managing tasks built with Java Spring Boot.
 
 ## Architecture
 
-![Architecture](D:\Project\ArchitectureOfRestApi.PNG)
+![Architecture](D:\Project\ArchitectureOfRestApi.png)
 
 ## Table of Contents
 - [Usage](#usage)
