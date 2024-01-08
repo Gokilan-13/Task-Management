@@ -100,8 +100,8 @@ To deploy this project
    - Response: List of tasks (paginated)
 
 6.**View All Tasks - Sorted:**
-  - Endpoint:** `GET /admin/viewAllTaskSorted/{loginId}`
-  - Purpose:** Allow admins to view all tasks with sorting options.
+  - Endpoint: `GET /admin/viewAllTaskSorted/{loginId}`
+  - Purpose: Allow admins to view all tasks with sorting options.
   - **Path Variable:**
       - `{loginId}` (String) - The unique identifier or email id of the user.
 
