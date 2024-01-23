@@ -171,6 +171,9 @@ To deploy this project
     - Purpose: Allow admins to assign a task to an employee.
     - **Path Variable:**
         - `{loginId}` (String) - The unique identifier or email id of the user.
+     - **Request Parameters:**
+       - `taskId` (Long) - The taskId to identify the task.
+       - `employeeId` (Long) - employeeId used for assign task to appropriate employee.      
     - Response: None
     - HTTP Status: 200 OK
 
