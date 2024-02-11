@@ -26,13 +26,8 @@ To deploy this project
 1. **User Login:**
    - Endpoint: `POST /login`
    - Purpose: Allow users to log in with their email and password.
-   - Request Body:
-     ```json
-     {
-       "emailId": "user@example.com",
-       "password": "userpassword"
-     }
-     ```
+   -  **Request Header:**
+       - `Authorization` `"username:password"` (Basic Auth)  - enter email id : password credentials of the user.
    - Response: User details
    - HTTP Status: 200 OK (assuming successful login)
 
