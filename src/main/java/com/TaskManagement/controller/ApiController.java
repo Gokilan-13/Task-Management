@@ -1,6 +1,5 @@
 package com.TaskManagement.controller;
 
-import com.TaskManagement.entity.LoginCredentials;
 import com.TaskManagement.entity.Users;
 import com.TaskManagement.entity.Task;
 import com.TaskManagement.service.implementation.UserServiceImple;
@@ -21,11 +20,11 @@ public class ApiController {
     @Autowired
     public UserServiceImple userServiceImple;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginCredentials loginCredentials){
 
-       Users employee = userServiceImple.login(loginCredentials);
-       return new ResponseEntity<>(employee,HttpStatus.FOUND);
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestHeader(value = "Authorization") String loginCredentials){
+        Users employee = userServiceImple.login(loginCredentials);
+        return new ResponseEntity<>(employee,HttpStatus.OK);
     }
 
     @PostMapping("/admin/addTask/{loginId}")

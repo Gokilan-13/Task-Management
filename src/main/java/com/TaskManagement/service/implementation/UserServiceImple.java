@@ -1,6 +1,5 @@
 package com.TaskManagement.service.implementation;
 
-import com.TaskManagement.entity.LoginCredentials;
 import com.TaskManagement.entity.Users;
 import com.TaskManagement.exception.BadRequestException;
 import com.TaskManagement.exception.NotFoundException;
@@ -23,8 +22,8 @@ public class UserServiceImple implements UserService {
     @Override
     public Users addUser(String loginId,Users user){
         isValidAdmin(loginId);
-        if((user.getUserName()==null)||(user.getRole()==null)||(user.getAge()==null)||
-                (user.getEmailId()==null)||(user.getPassword()==null)||(user.getContactNo()==null)){
+        if((user.getUserName()==null)||(user.getAge()==null)||(user.getEmailId()==null)||
+                (user.getPassword()==null)||(user.getContactNo()==null)||(user.getAddress()==null)){
             throw new BadRequestException("please give valid details for user!!");
         }
         if(userRepository.existsByEmailId(user.getEmailId())){
@@ -44,10 +43,37 @@ public class UserServiceImple implements UserService {
     }
 
     @Override
+    public Users login(String authHeaders) {
+        String [] credentials = extractCredentials(authHeaders);
+        String userId=credentials[0];
+        String password=credentials[1];
+        List<Users> allUser = userRepository.findAll();
+        if(allUser.isEmpty()){
+            Users user = new Users("Default Admin","admin","admin@gmail.com","abcd","male",21,"admin adress",9988776655l);
+            userRepository.save(user);
+        }
+        Users user =validLoginCredentials(userId,password);
+        Users existLoginUser=userRepository.findLoginUser();
+        if (existLoginUser != null) {
+            existLoginUser.setLogin(false);
+        }
+        user.setLogin(true);
+        userRepository.save(user);
+        return user;
+    }
+
+    public String[] extractCredentials(String authorizationHeader){
+        String base64Credentials = authorizationHeader.substring("Basic".length()).trim();
+        byte[] decoded = java.util.Base64.getDecoder().decode(base64Credentials);
+        String decodedCredentials = new String(decoded);
+        return decodedCredentials.split(":", 2);
+    }
+
+    @Override
     public Users addAdmin(String loginId,Users user) {
         isValidAdmin(loginId);
-        if((user.getUserName()==null)||(user.getRole()==null)||(user.getAge()==null)||
-                (user.getEmailId()==null)||(user.getPassword()==null)||(user.getContactNo()==null)){
+        if((user.getUserName()==null)||(user.getAge()==null)|| (user.getEmailId()==null)||
+                (user.getPassword()==null)||(user.getAddress()==null)||(user.getContactNo()==null)){
             throw new BadRequestException("please give valid details for admin!!");
         }
         if(userRepository.existsByEmailId(user.getEmailId())){
@@ -59,30 +85,13 @@ public class UserServiceImple implements UserService {
         return newAdmin;
     }
 
-    @Override
-    public Users login(LoginCredentials loginCredentials) {
-        List<Users> allUser = userRepository.findAll();
-        if(allUser.isEmpty()){
-            Users user = new Users("Default Admin","admin","admin@gmail.com","abcd","male",21,"admin adress",9988776655l);
-            userRepository.save(user);
+    public Users validLoginCredentials(String emailId,String password){
+        if(!userRepository.existsByEmailId(emailId)) {
+            throw new UnAuthorizedException("No user found in this emailId (" + emailId +")");
         }
-        Users user =validLoginCredentials(loginCredentials);
-        Users existLoginUser=userRepository.findLoginUser();
-        if (existLoginUser != null) {
-            existLoginUser.setLogin(false);
-        }
-        user.setLogin(true);
-        userRepository.save(user);
-        return user;
-    }
-
-    public Users validLoginCredentials(LoginCredentials loginCredentials){
-        if(!userRepository.existsByEmailId(loginCredentials.getEmailId())) {
-            throw new NotFoundException("No user found in this emailId (" + loginCredentials.getEmailId() +")");
-        }
-        Users user = userRepository.findByEmailId(loginCredentials.getEmailId());
-        if (!user.getPassword().equals(loginCredentials.getPassword())){
-            throw new NotFoundException("Invalid password");
+        Users user = userRepository.findByEmailId(emailId);
+        if (!user.getPassword().equals(password)){
+            throw new UnAuthorizedException("Invalid password");
         }
         return user;
     }

@@ -23,7 +23,7 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Object> badReuestExceptionHandler(BadRequestException ex){
+    public ResponseEntity<Object> badRequestExceptionHandler(BadRequestException ex){
         return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
     }
 }
